@@ -1,22 +1,27 @@
 {
-  "compilerOptions": {
-    "target": "es2019",
-    "module": "commonjs",
-    "outDir": "./dist",
-    "rootDir": "./src",
-    "strict": true,
-    "strictPropertyInitialization": false,
-    "baseUrl": "./src",
-    "allowJs": true,
-    "paths": {
-      "@modules/*": ["modules/*"],
-      "@config/*": ["config/*"],
-      "@main/*": ["main/*"]
-    },
-    "esModuleInterop": true,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true
+    "compilerOptions": {
+      "target": "es2017",
+      "module": "commonjs",
+      "outDir": "./dist",
+      "rootDir": "./src",
+      "strict": true,
+      "strictPropertyInitialization": false,
+      "baseUrl": "./src",
+      "allowJs": true,
+      "lib": [
+        "es6",
+        "dom",
+        "dom.iterable"
+      ],
+      "paths": {
+        "@modules/*": ["modules/*"],
+        "@config/*": ["config/*"],
+        "@main/*": ["main/*"]
+      },
+      "esModuleInterop": true,
+      "experimentalDecorators": true,
+      "emitDecoratorMetadata": true,
+      "forceConsistentCasingInFileNames": true,
+      "resolveJsonModule": true
+    }
   }
-}
