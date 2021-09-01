@@ -1,6 +1,6 @@
 import { SignUpControllers } from './signup'
 import { InvalidParamError, MissingParamError, ServerError } from '../errors'
-import { EmailValidator } from '../protocols/emailValidator'
+import { EmailValidator } from '../protocols'
 
 interface SutTypes {
   sut: SignUpControllers
@@ -11,13 +11,25 @@ interface SutTypes {
 // Se a gente precisa colocar dependecia dentro do SignUpControllers, não precisamos colocar em vários lugares do código
 // Stub é duble de teste. Retorna uma erro marretado na função
 // Como a validacão de email é a ultima antes do retorno correto, devemos inverter a logica para ela retornar false
-const makeSut = (): SutTypes => {
+const makeEmailValidator = (): EmailValidator => {
   class EmailValidatorStub implements EmailValidator {
     isValid (email: string): boolean {
       return true
     }
   }
-  const emailValidatorStub = new EmailValidatorStub()
+  return new EmailValidatorStub()
+}
+const makeEmailValidatorWithError = (): EmailValidator => {
+  class EmailValidatorStub implements EmailValidator {
+    isValid (email: string): boolean {
+      throw new Error()
+    }
+  }
+  return new EmailValidatorStub()
+}
+
+const makeSut = (): SutTypes => {
+  const emailValidatorStub = makeEmailValidator()
   const sut = new SignUpControllers(emailValidatorStub)
   return {
     sut,
@@ -115,12 +127,7 @@ describe('SignUp Controller', () => {
   })
 
   test('Should return 500 if EmailValidator throws', () => {
-    class EmailValidatorStub implements EmailValidator {
-      isValid (email: string): boolean {
-        throw new Error()
-      }
-    }
-    const emailValidatorStub = new EmailValidatorStub()
+    const emailValidatorStub = makeEmailValidatorWithError()
     const sut = new SignUpControllers(emailValidatorStub)
     const httpRequest = {
       body: {
