@@ -5,3 +5,4 @@ tmp/*
 ormConfig.json
 dist
 coverage
+.DS_Store
