@@ -12,6 +12,7 @@
     "test:ci": "yarn test -- --coverage"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
     "@types/jest": "^26.0.24",
     "@types/node": "^16.3.1",
     "@types/validator": "^13.6.4",
@@ -29,6 +30,7 @@
     "typescript": "^4.3.5"
   },
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "validator": "^13.6.0"
   }
 }
