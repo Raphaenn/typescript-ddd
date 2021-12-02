@@ -2,6 +2,7 @@ module.exports = {
   // roots: ['<rootDir>/tests'],
   clearMocks: true,
   collectCoverage: true,
+  preset: '@shelf/jest-mongodb',
   collectCoverageFrom: [
     '<rootDir>/src/**/*.ts',
     '!<rootDir>/src/main/**'
@@ -9,7 +10,6 @@ module.exports = {
   coverageDirectory: 'coverage',
   coverageProvider: 'babel',
   testEnvironment: 'node',
-  preset: 'ts-jest',
   transform: {
     '.+\\.ts$': 'ts-jest'
   },
