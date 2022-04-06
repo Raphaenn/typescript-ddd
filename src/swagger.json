@@ -1,0 +1,52 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Yours Documentation",
+    "Description": "This is an API Rent",
+    "version": "1.0.0",
+    "contact": {
+      "email": "raphael.neves@yoursbank.com.br"
+    }
+  },
+  "paths": {
+    "/health": {
+      "get": {
+        "tags": ["Health"],
+        "summary": "Create health",
+        "Description": "Check health of api",
+        "requestBody": {
+          "content": {
+            "aplication/json": {
+              "schema": {
+                "type": "string",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "name": "Health Check sample",
+                  "description": "Health check sample"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Ok"
+          },
+          "500": {
+            "description": "Health check error"
+          }
+        }
+      }
+    }
+  }
+
+
+
+}
