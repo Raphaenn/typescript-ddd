@@ -1,7 +1,11 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import { Router } from 'express'
+import { adaptRoute } from '../adaptes/express-routes-adapter'
+import { makeSingupController } from '../factories/signup'
 
 export default (router: Router): void => {
-  router.post('/signup', (req, res) => {
-    res.json({ ok: true })
-  })
+  router.post(
+    '/signup',
+    adaptRoute(makeSingupController())
+  )
 }
