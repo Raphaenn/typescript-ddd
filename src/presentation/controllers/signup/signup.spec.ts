@@ -1,6 +1,6 @@
 import { SignUpControllers } from './signup'
 import { InvalidParamError, MissingParamError, ServerError } from '../../errors'
-import { EmailValidator } from '../signup/signup-protocols'
+import { EmailValidator } from './signup-protocols'
 import { AccountModel } from '../../../domain/models/account'
 import { AddAccount, AddAccountModel } from '../../../domain/usercases/add-account'
 
@@ -168,7 +168,7 @@ describe('SignUp Controller', () => {
     }
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(500)
-    expect(httpResponse.body).toEqual(new ServerError())
+    expect(httpResponse.body).toEqual(new ServerError('any_error'))
   })
 
   test('Should call AddAccount with correct values', async () => {
@@ -207,7 +207,7 @@ describe('SignUp Controller', () => {
     }
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(500)
-    expect(httpResponse.body).toEqual(new ServerError())
+    expect(httpResponse.body).toEqual(new ServerError('any_error'))
   })
 
   test('Should return 200 if valid data is provider AddAccount', async () => {
