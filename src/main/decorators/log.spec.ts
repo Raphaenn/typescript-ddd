@@ -78,12 +78,7 @@ describe('Decorator unit test', () => {
   test('should return LogControllerDecorator with the same controller return', async () => {
     const { sut } = makeSut()
     const httpResponse = await sut.handle(makeFakeRequest())
-    expect(httpResponse).toEqual({
-      statusCode: 200,
-      body: {
-        name: 'Rodrigo'
-      }
-    })
+    expect(httpResponse).toEqual(ok(makeFakeAccount()))
   })
 
   test('Should call LogErrorRepository with correct error if controller returns a server error', async () => {
