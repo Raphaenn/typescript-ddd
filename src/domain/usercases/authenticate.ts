@@ -1,3 +1,3 @@
 export interface Authenticate {
-  auth: (email: string, password: string) => Promise<string>
+  auth: (email: string, password: string) => Promise<any>
 }
