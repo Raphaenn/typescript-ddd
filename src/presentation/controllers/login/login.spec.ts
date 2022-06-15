@@ -4,10 +4,12 @@ import { LoginController } from './login'
 import { EmailValidator } from '../../protocols/emailValidator'
 import { InvalidParamError } from '../../errors/invalid-param-error'
 import { HttpRequest } from '../signup/signup-protocols'
+import { Authenticate } from '../../../domain/usercases/authenticate'
 
 interface Sutypes {
   sut: LoginController
   emailValidatorStub: EmailValidator
+  authenticateStub: Authenticate
 }
 
 const makeFakeRequest = (): HttpRequest => ({
@@ -26,12 +28,23 @@ const makeEmailValidator = (): EmailValidator => {
   return new EmailValidatorStub()
 }
 
+const makeAuthenticate = (): Authenticate => {
+  class AuthenticateStub implements Authenticate {
+    async auth (email: string, password: string): Promise<string> {
+      return await new Promise(resolve => resolve('any_token'))
+    }
+  }
+  return new AuthenticateStub()
+}
+
 const makeSut = (): Sutypes => {
   const emailValidatorStub = makeEmailValidator()
-  const sut = new LoginController(emailValidatorStub)
+  const authenticateStub = makeAuthenticate()
+  const sut = new LoginController(emailValidatorStub, authenticateStub)
   return {
     sut,
-    emailValidatorStub
+    emailValidatorStub,
+    authenticateStub
   }
 }
 
@@ -79,5 +92,11 @@ describe('Login Controller', () => {
     })
     const httpResponse = await sut.handle(makeFakeRequest())
     expect(httpResponse).toEqual(serverError(new Error()))
+  })
+
+  test('should call authenticate with correct value', async () => {
+    const { sut } = makeSut()
+    const httpReponse = await sut.handle(makeFakeRequest())
+    expect(httpReponse)
   })
 })
