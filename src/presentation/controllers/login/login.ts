@@ -1,15 +1,13 @@
 import { MissingParamError } from '../../errors/missing-param-error'
 import { badRequest, serverError, unauthorized } from '../../helpers/http-helpers'
-import { Controller, HttpRequest, HttpResponse } from '../signup/signup-protocols'
-import { EmailValidatorAdapter } from '../../../utils/email-validator-adapter'
+import { Controller, HttpRequest, HttpResponse, EmailValidator, Authenticate } from './login-protocols'
 import { InvalidParamError } from '../../errors/invalid-param-error'
-import { Authenticate } from '../../../domain/usercases/authenticate'
 
 export class LoginController implements Controller {
-  private readonly emailValidator: EmailValidatorAdapter
+  private readonly emailValidator: EmailValidator
   private readonly authenticate: Authenticate
 
-  constructor (emailValidator: EmailValidatorAdapter, authenticate: Authenticate) {
+  constructor (emailValidator: EmailValidator, authenticate: Authenticate) {
     this.emailValidator = emailValidator
     this.authenticate = authenticate
   }
