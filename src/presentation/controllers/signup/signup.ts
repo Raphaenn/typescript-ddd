@@ -19,7 +19,7 @@ export class SignUpControllers implements Controller {
     try {
       const { name, email, password, passwordConfirmation } = httpRequest.body
       const error = this.valitation.validate(httpRequest.body)
-      console.log(error)
+
       if (error) badRequest(error)
 
       if (password !== passwordConfirmation) {

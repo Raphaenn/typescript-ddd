@@ -1,6 +1,5 @@
 import { Validation } from 'presentation/helpers/validators'
-import { RequiredFieldValidation } from '../../presentation/helpers/validators/required-field-validation'
-import { ValidationComposite } from '../../presentation/helpers/validators/validation-composite'
+import { ValidationComposite, RequiredFieldValidation, CompareFieldsValidation } from '../../presentation/helpers/validators'
 
 export const makeSignupValidation = (): ValidationComposite => {
   const requiredFields: Validation[] = []
@@ -8,5 +7,7 @@ export const makeSignupValidation = (): ValidationComposite => {
   for (const fields of ['name', 'email', 'password', 'passwordConfirmation']) {
     requiredFields.push(new RequiredFieldValidation(fields))
   }
+  requiredFields.push(new CompareFieldsValidation('password', 'passwordConfirmation'))
+
   return new ValidationComposite(requiredFields)
 }
