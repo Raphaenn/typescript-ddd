@@ -1,7 +1,7 @@
 import { badRequest, serverError, unauthorized, ok } from '../../helpers/http/http-helpers'
 import { LoginController } from './login'
 import { HttpRequest } from '../signup/signup-protocols'
-import { Authenticate, authenticationModel } from '../../../domain/usercases/authenticate'
+import { Authenticate, AuthenticationModel } from '../../../domain/usercases/authenticate'
 import { Validation } from '../../helpers/validators'
 import { MissingParamError } from '../../errors'
 
@@ -30,7 +30,7 @@ const makeFakeRequest = (): HttpRequest => ({
 
 const makeAuthenticate = (): Authenticate => {
   class AuthenticateStub implements Authenticate {
-    async auth (authentication: authenticationModel): Promise<any> {
+    async auth (authentication: AuthenticationModel): Promise<any> {
       return await new Promise(resolve => resolve('any_token'))
     }
   }
