@@ -11,6 +11,7 @@ export class DbAuthentication implements Authenticate {
   }
 
   async auth (authentication: AuthenticationModel): Promise<any> {
-    await this.loadAccountByEmailRepository.load('any_email@mail.com')
+    await this.loadAccountByEmailRepository.load(authentication.email)
+    return null
   }
 }
