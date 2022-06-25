@@ -107,10 +107,23 @@ describe('DbAuthentication account', () => {
     expect(auth).toBeNull()
   })
 
-  test('should calls TokenGeneratr with correct id', async () => {
+  test('should calls TokenGenerator with correct id', async () => {
     const { sut, tokenGeneratorStub } = makeSut()
     const generatorSpy = jest.spyOn(tokenGeneratorStub, 'generate')
     await sut.auth(makeFakeAddAccount())
     expect(generatorSpy).toHaveBeenCalledWith('any_id')
+  })
+
+  test('should throw if TokenGenerator throws', async () => {
+    const { sut, tokenGeneratorStub } = makeSut()
+    jest.spyOn(tokenGeneratorStub, 'generate').mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())))
+    const auth = sut.auth(makeFakeValidateEmail())
+    await expect(auth).rejects.toThrow()
+  })
+
+  test('should return a token if TokenGenerator returns true', async () => {
+    const { sut } = makeSut()
+    const auth = await sut.auth(makeFakeValidateEmail())
+    expect(auth).toBe('any_token')
   })
 })
