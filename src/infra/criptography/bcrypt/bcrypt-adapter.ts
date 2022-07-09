@@ -1,5 +1,5 @@
 import brcypt from 'bcrypt'
-import { Hasher, HashComparer } from '../../data/protocols/criptography'
+import { Hasher, HashComparer } from '../../../data/protocols/criptography'
 
 export class BcryptAdapter implements Hasher, HashComparer {
   private readonly salt: number
