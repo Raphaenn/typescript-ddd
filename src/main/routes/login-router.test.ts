@@ -17,7 +17,7 @@ describe('Login Router', () => {
   })
 
   describe('post/ signup', () => {
-    test('should return an account on success', async () => {
+    test('should return 200 on success', async () => {
       await request(app)
         .post('/api/signUp')
         .send({
