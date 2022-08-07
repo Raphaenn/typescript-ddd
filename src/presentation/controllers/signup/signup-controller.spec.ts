@@ -5,6 +5,7 @@ import { AccountModel } from '../../../domain/models/account'
 import { AddAccount, AddAccountModel } from '../../../domain/usercases/add-account'
 import { badRequest, ok, serverError } from '../../helpers/http/http-helpers'
 import { Validation } from '../../helpers/validators'
+import { Authenticate, AuthenticationModel } from '../login/login-controller-protocols'
 
 const makeFakeRequest = (): HttpRequest => ({
   body: {
@@ -19,6 +20,7 @@ interface SutTypes {
   sut: SignUpControllers
   addAccountStub: AddAccount
   validationStub: Validation
+  authenticationStub: Authenticate
 }
 
 // Facfory
@@ -33,6 +35,15 @@ const makeValidation = (): Validation => {
   }
 
   return new ValidationStub()
+}
+
+const makeAuthenticate = (): Authenticate => {
+  class AuthenticateStub implements Authenticate {
+    async auth (authentication: AuthenticationModel): Promise<any> {
+      return await new Promise(resolve => resolve('any_token'))
+    }
+  }
+  return new AuthenticateStub()
 }
 
 const makeFakeAccount = (): AccountModel => ({
@@ -54,12 +65,14 @@ const makeAddAccount = (): AddAccount => {
 const makeSut = (): SutTypes => {
   const addAccountStub = makeAddAccount()
   const validationStub = makeValidation()
+  const authenticationStub = makeAuthenticate()
 
-  const sut = new SignUpControllers(addAccountStub, validationStub)
+  const sut = new SignUpControllers(addAccountStub, validationStub, authenticationStub)
   return {
     sut,
     addAccountStub,
-    validationStub
+    validationStub,
+    authenticationStub
   }
 }
 
@@ -84,6 +97,17 @@ describe('SignUp Controller', () => {
     })
     const httpResponse = await sut.handle(makeFakeRequest())
     expect(httpResponse).toEqual(serverError(new ServerError('any_error')))
+  })
+
+  test('should call Authentication with correct values ', async () => {
+    const { sut, authenticationStub } = makeSut()
+    const authenticateSpy = jest.spyOn(authenticationStub, 'auth')
+    const httpRequest = makeFakeRequest()
+    await sut.handle(httpRequest)
+    expect(authenticateSpy).toHaveBeenCalledWith({
+      email: 'any_email@mail.com',
+      password: 'any_password'
+    })
   })
 
   test('Should return 200 if valid data is provider AddAccount', async () => {
