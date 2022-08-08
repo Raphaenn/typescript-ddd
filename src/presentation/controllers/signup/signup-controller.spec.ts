@@ -1,9 +1,9 @@
 import { SignUpControllers } from './signup-controller'
-import { MissingParamError, ServerError } from '../../errors'
+import { MissingParamError, ServerError, EmailInUseError } from '../../errors'
 import { HttpRequest } from './signup-controller-protocols'
 import { AccountModel } from '../../../domain/models/account'
 import { AddAccount, AddAccountModel } from '../../../domain/usercases/add-account'
-import { badRequest, ok, serverError } from '../../helpers/http/http-helpers'
+import { badRequest, ok, serverError, forbidden } from '../../helpers/http/http-helpers'
 import { Validation } from '../../helpers/validators'
 import { Authenticate, AuthenticationModel } from '../login/login-controller-protocols'
 
@@ -146,5 +146,13 @@ describe('SignUp Controller', () => {
     jest.spyOn(validationStub, 'validate').mockReturnValueOnce(new MissingParamError('any_field'))
     const httpResponse = await sut.handle(makeFakeRequest())
     expect(httpResponse).toEqual(badRequest(new MissingParamError('any_field')))
+  })
+
+  test('should return forbidden when add account already has the email register', async () => {
+    const { sut, addAccountStub } = makeSut()
+    jest.spyOn(addAccountStub, 'add').mockReturnValueOnce(new Promise(resolve => resolve(null)))
+    const httpRequest = makeFakeRequest()
+    const httpReponse = await sut.handle(httpRequest)
+    expect(httpReponse).toEqual(forbidden(new EmailInUseError()))
   })
 })
