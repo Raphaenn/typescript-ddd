@@ -4,7 +4,7 @@ import { HttpRequest } from './signup-controller-protocols'
 import { AccountModel } from '../../../domain/models/account'
 import { AddAccount, AddAccountModel } from '../../../domain/usercases/add-account'
 import { badRequest, ok, serverError, forbidden } from '../../helpers/http/http-helpers'
-import { Validation } from '../../helpers/validators'
+import { Validation } from '../../../validation/validators'
 import { Authenticate, AuthenticationModel } from '../login/login-controller-protocols'
 
 const makeFakeRequest = (): HttpRequest => ({

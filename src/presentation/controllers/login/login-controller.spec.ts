@@ -2,7 +2,7 @@ import { badRequest, serverError, unauthorized, ok } from '../../helpers/http/ht
 import { LoginController } from './login-controller'
 import { HttpRequest } from '../signup/signup-controller-protocols'
 import { Authenticate, AuthenticationModel } from '../../../domain/usercases/authenticate'
-import { Validation } from '../../helpers/validators'
+import { Validation } from '../../../validation/validators'
 import { MissingParamError } from '../../errors'
 
 interface Sutypes {

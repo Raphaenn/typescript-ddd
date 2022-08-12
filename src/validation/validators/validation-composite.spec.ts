@@ -1,8 +1,8 @@
 // Caso algum validate interno do composite falhar, devemos repassar o erro
 // e caso nenhum falar devemos passar adiante sem erro
 
-import { MissingParamError } from '../../errors'
-import { Validation } from '../../protocols/validation'
+import { MissingParamError } from '../../presentation/errors'
+import { Validation } from '../../presentation/protocols/validation'
 import { ValidationComposite } from './validation-composite'
 
 const makeValidation = (): Validation => {
